@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="right_col" role="main" data-layout-fragment="content">
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <!--<div class="container">-->
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">Candidate Informatio</div>
+                <div class="panel-body">
+                    <form action="/Create"
+                          th:object="${candidateInfo}" th:method="post">
+                        <!--+${role.role}  +${role.role}-->
+<!--                        action="'/InvUom/Uom/'+${mode}+'/'+${pageId}+'/'+${temltId}"-->
+<!--                        th:action="@{'/InvUom/Uom/'+${mode}+'/'+${pageId}+'/'+${temltId}}"-->
+                        <div class="form-group">
+                            <input type="hidden" id="inputId" placeholder="id"
+                                   th:field="*{id}" name="id"/>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="inputFirstName">First Name</label>
+                            <input type="text" class="form-control" id="inputFirstName" placeholder="First Name"
+                                   th:field="*{firstName}" name="firstName"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputMiddleName">Middle Name</label>
+                            <input type="text" class="form-control" id="inputMiddleName" placeholder="Middle Name"
+                                   th:field="*{middleName}" name="middleName"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputMiddleName">Last Name</label>
+                            <input type="text" class="form-control" id="inputlastName" placeholder="Last Name"
+                                   th:field="*{lastName}" name="lastName"/>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="inputdob">Date of Birth</label>
+                            <input type="date" id="inputdob" placeholder="Date of Birth"
+                                   name="Date of Birth" th:field="*{{dob}}"
+                                   class="form-control"   required="required" />
+                        </div>
+
+
+                        <div class="text-right">
+<!--                            <a  th:href="@{/InvUom/Uom/E/}+${pageId}+'/'+${temltId}"-->
+<!--                                class="btn btn-default">Cancel</a>-->
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+
+
+                    </form>
+
+
+
+
+                </div>
+
+                </div>
+            </div>
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

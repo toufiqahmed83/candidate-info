@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head>
+    <link th:href="@{/css/common.css}" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="right_col" role="main" data-layout-fragment="content">
+<div class="panel panel-default">
+    <div class="panel-heading">Candidate List</div>
+    <div class="panel-body">
+    <div> <a href="/Create" >New</a></div>
+<table class="table table-bordered table-hover ">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>First Name</th>
+        <th>Middle Name</th>
+        <th>Last Name</th>
+        <th>Date of Birth</th>
+        <th>Identity No.</th>
+    </tr>
+    </thead>
+    <tbody>
+    <div th:if="!${#lists.isEmpty(candidateInfos)}">
+        <tr th:each="l : ${candidateInfos}">
+
+            <td th:text="*{l.id}"></td>
+            <td th:text="*{l.firstName}"></td>
+            <td th:text="*{l.middleName}"></td>
+            <td th:text="*{l.lastName}"></td>
+            <td th:text="*{l.dob}"></td>
+            <td th:text="*{l.identityNumber}"></td>
+            <td>
+                <a th:href="@{'/Edit/' + ${l.id}}">Edit</a>
+                <a th:href="@{'/Delete/' + ${l.id}}">Delete</a>
+            </td>
+<!--            <td>-->
+<!--                <div class="btn-group" role="group" aria-label="...">-->
+<!--                    <a th:href="@{/requsition/reqLines/U/}+${pageId}+'/'+${temltId}+'/'+${invOrgId}+'/'+${l.poReqHeader.id}+'/'+${l.id}"-->
+<!--                       class="btn btn-success"><span-->
+<!--                            class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>-->
+
+<!--                </div>-->
+
+<!--                <div class="btn-group" role="group" aria-label="...">-->
+<!--                    <a th:href="@{'/requsition/reqLinesDelete/U/'}+${pageId}+'/'+${temltId}+'/'+${invOrgId}+'/'+${l.poReqHeader.id}+'/'+${l.id}"-->
+<!--                       class="btn btn-danger"><span-->
+<!--                            class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>-->
+
+<!--                </div>-->
+<!--            </td>-->
+
+        </tr>
+    </div>
+    <div th:if="${#lists.isEmpty(candidateInfos)}">
+        <tr>
+            <td>No Data exists!</td>
+        </tr>
+    </div>
+
+    </tbody>
+
+</table>
+</div>
+</div>
+</div>
+</body>
+</html>
