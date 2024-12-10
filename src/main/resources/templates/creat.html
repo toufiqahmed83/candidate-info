@@ -16,41 +16,48 @@
                     <h4>Candidate Information</h4>
                 </div>
                 <div class="card-body">
-                    <form action="/Create" th:object="${candidateInfo}" th:method="post">
+                    <form action="/SaveCandidate" th:object="${candidateInfo}" th:method="post">
                         <!-- Hidden ID field -->
-                        <input type="hidden" id="inputId" th:field="*{id}" name="id">
+                        <input type="hidden" th:field="*{id}" name="id">
 
                         <!-- First Name -->
                         <div class="mb-3">
-                            <label for="inputFirstName" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="inputFirstName" placeholder="Enter first name"
-                                   th:field="*{firstName}" name="firstName" required>
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" id="firstName" class="form-control" placeholder="Enter first name"
+                                   th:field="*{firstName}" required>
                         </div>
 
                         <!-- Middle Name -->
                         <div class="mb-3">
-                            <label for="inputMiddleName" class="form-label">Middle Name</label>
-                            <input type="text" class="form-control" id="inputMiddleName" placeholder="Enter middle name"
-                                   th:field="*{middleName}" name="middleName">
+                            <label for="middleName" class="form-label">Middle Name</label>
+                            <input type="text" id="middleName" class="form-control" placeholder="Enter middle name"
+                                   th:field="*{middleName}">
                         </div>
 
                         <!-- Last Name -->
                         <div class="mb-3">
-                            <label for="inputLastName" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="inputLastName" placeholder="Enter last name"
-                                   th:field="*{lastName}" name="lastName" required>
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" id="lastName" class="form-control" placeholder="Enter last name"
+                                   th:field="*{lastName}" required>
                         </div>
 
                         <!-- Date of Birth -->
                         <div class="mb-3">
-                            <label for="inputDob" class="form-label">Date of Birth</label>
-                            <input type="date" class="form-control" id="inputDob" th:field="*{dob}" name="dob"
-                                   required>
+                            <label for="dob" class="form-label">Date of Birth</label>
+                            <input type="date" id="dob" class="form-control" th:field="*{dob}" required>
                         </div>
 
-                        <!-- Form Buttons -->
+                        <!-- Identity No.-->
+                        <div class="mb-3">
+                            <label for="identityNumber" class="form-label">Identity Number</label>
+                            <input type="text" id="identityNumber" class="form-control" placeholder="Enter Identity Number"
+                                   th:field="*{identityNumber}" required>
+                        </div>
+
+
+                        <!-- Submit Button -->
                         <div class="d-flex justify-content-end">
-                            <a href="/" class="btn btn-secondary me-2">Cancel</a>
+                            <a href="/All" class="btn btn-secondary me-2">Cancel</a>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </form>

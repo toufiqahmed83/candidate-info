@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,8 +33,9 @@ public class CandidateController {
         return "creat";
     }
 
-    @PostMapping("/Create")
-    public String createCandidatePost(@Validated CandidateInfo candidateInfo, Model model)
+    @PostMapping("/SaveCandidate")
+//    public String createCandidatePost(@Validated CandidateInfo candidateInfo, Model model)
+    public String createCandidatePost(@ModelAttribute("candidateInfo") CandidateInfo candidateInfo, Model model)
     {
         this.candideteService.save(candidateInfo);
 //        model.addAttribute("candidateInfo",candidateInfo);
@@ -50,8 +49,6 @@ public class CandidateController {
         model.addAttribute("candidateInfo",candidateInfo);
         return "creat";
     }
-
-
 
     @GetMapping("/Delete/{id}")
     public String deleteCandidate(@PathVariable("id") Integer id, Model model)
