@@ -1,0 +1,21 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.container {
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.btn-group a {
+    text-decoration: none;
+}
+
+.no-data {
+    text-align: center;
+    font-style: italic;
+    color: #6c757d;
+}

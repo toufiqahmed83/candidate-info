@@ -23,6 +23,7 @@ public class CandidateController {
     {
         List<CandidateInfo> candidateInfos = this.candideteService.findAll();
         model.addAttribute("candidateInfos",candidateInfos);
+//        return "index";
         return "info";
     }
 

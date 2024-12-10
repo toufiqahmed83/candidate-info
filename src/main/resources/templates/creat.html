@@ -1,78 +1,66 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Information</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<div class="right_col" role="main" data-layout-fragment="content">
-    <div class="row">
-        <div class="col-sm-8 col-sm-offset-2">
-            <!--<div class="container">-->
-            <div class="panel panel-default">
-                <!-- Default panel contents -->
-                <div class="panel-heading">Candidate Informatio</div>
-                <div class="panel-body">
-                    <form action="/Create"
-                          th:object="${candidateInfo}" th:method="post">
-                        <!--+${role.role}  +${role.role}-->
-<!--                        action="'/InvUom/Uom/'+${mode}+'/'+${pageId}+'/'+${temltId}"-->
-<!--                        th:action="@{'/InvUom/Uom/'+${mode}+'/'+${pageId}+'/'+${temltId}}"-->
-                        <div class="form-group">
-                            <input type="hidden" id="inputId" placeholder="id"
-                                   th:field="*{id}" name="id"/>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>Candidate Information</h4>
+                </div>
+                <div class="card-body">
+                    <form action="/Create" th:object="${candidateInfo}" th:method="post">
+                        <!-- Hidden ID field -->
+                        <input type="hidden" id="inputId" th:field="*{id}" name="id">
+
+                        <!-- First Name -->
+                        <div class="mb-3">
+                            <label for="inputFirstName" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="inputFirstName" placeholder="Enter first name"
+                                   th:field="*{firstName}" name="firstName" required>
                         </div>
 
-
-                        <div class="form-group">
-                            <label for="inputFirstName">First Name</label>
-                            <input type="text" class="form-control" id="inputFirstName" placeholder="First Name"
-                                   th:field="*{firstName}" name="firstName"/>
+                        <!-- Middle Name -->
+                        <div class="mb-3">
+                            <label for="inputMiddleName" class="form-label">Middle Name</label>
+                            <input type="text" class="form-control" id="inputMiddleName" placeholder="Enter middle name"
+                                   th:field="*{middleName}" name="middleName">
                         </div>
 
-                        <div class="form-group">
-                            <label for="inputMiddleName">Middle Name</label>
-                            <input type="text" class="form-control" id="inputMiddleName" placeholder="Middle Name"
-                                   th:field="*{middleName}" name="middleName"/>
+                        <!-- Last Name -->
+                        <div class="mb-3">
+                            <label for="inputLastName" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="inputLastName" placeholder="Enter last name"
+                                   th:field="*{lastName}" name="lastName" required>
                         </div>
 
-                        <div class="form-group">
-                            <label for="inputMiddleName">Last Name</label>
-                            <input type="text" class="form-control" id="inputlastName" placeholder="Last Name"
-                                   th:field="*{lastName}" name="lastName"/>
+                        <!-- Date of Birth -->
+                        <div class="mb-3">
+                            <label for="inputDob" class="form-label">Date of Birth</label>
+                            <input type="date" class="form-control" id="inputDob" th:field="*{dob}" name="dob"
+                                   required>
                         </div>
 
-
-                        <div class="form-group">
-                            <label for="inputdob">Date of Birth</label>
-                            <input type="date" id="inputdob" placeholder="Date of Birth"
-                                   name="Date of Birth" th:field="*{{dob}}"
-                                   class="form-control"   required="required" />
-                        </div>
-
-
-                        <div class="text-right">
-<!--                            <a  th:href="@{/InvUom/Uom/E/}+${pageId}+'/'+${temltId}"-->
-<!--                                class="btn btn-default">Cancel</a>-->
+                        <!-- Form Buttons -->
+                        <div class="d-flex justify-content-end">
+                            <a href="/" class="btn btn-secondary me-2">Cancel</a>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>
-
-
                     </form>
-
-
-
-
-                </div>
-
                 </div>
             </div>
-            <!--</div>-->
         </div>
     </div>
 </div>
 
+<!-- Bootstrap 5 JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
