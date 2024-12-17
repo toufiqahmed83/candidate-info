@@ -1,64 +1,125 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Candidate List</title>
-    <link th:href="@{/css/info.css}" rel="stylesheet"/>
+    <link th:href="@{/css/info.css}" rel="stylesheet" />
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        async function loadSupersetDashboard() {
+            try {
+                // Fetch the guest token from your backend API
+                var response = await fetch('http://localhost:8085/api/v1/superset/token');
+                var responseText = await response.text();
+                // var { token } = await response.json();
+
+                var data = JSON.parse(responseText);
+                var token = data.token;
+                console.log(token)
+                if (!token) {
+                    throw new Error("No token found in API response.");
+                }
+
+                // Define Superset dashboard URL with the guest token 7b7d425e-77b5-4568-a927-57db28d06ef2
+                var dashboardId = "7246192d-81ee-453b-ba48-3b0f59b908f2";
+                var supersetBaseURL = "http://192.168.0.133:8089";
+                var dashboardURL = `${supersetBaseURL}/superset/dashboard/${dashboardId}/?standalone=1&token=${token}`;  
+
+                console.log(dashboardURL);
+                // Embed the dashboard in the iframe
+                document.getElementById('superset-dashboard').src = dashboardURL;
+            } catch (error) {
+                console.error("Error loading Superset dashboard:", error);
+            }
+        }
+
+        // Load the dashboard on page load
+        window.onload = loadSupersetDashboard;
+    </script>
 </head>
+
 <body>
-<div class="container my-4">
-    <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Candidate List</h5>
-        </div>
-        <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 class="mb-0">Manage your candidates efficiently</h6>
-                <a href="/Create" class="btn btn-success btn-sm">+ New Candidate</a>
+    <div class="container my-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Candidate List</h5>
             </div>
 
-            <!-- Table wrapper to make it responsive -->
-            <div class="table-responsive" >
-                <table class="table table-bordered table-hover">
-                    <thead class="table-primary">
-                    <tr>
-                        <th>ID</th>
-                        <th>First Name</th>
-                        <th>Middle Name</th>
-                        <th>Last Name</th>
-                        <th>Date of Birth</th>
-                        <th>Identity No.</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:if="!${#lists.isEmpty(candidateInfos)}" th:each="l : ${candidateInfos}">
-                        <td th:text="${l.id}"></td>
-                        <td th:text="${l.firstName}"></td>
-                        <td th:text="${l.middleName}"></td>
-                        <td th:text="${l.lastName}"></td>
-                        <td th:text="${l.dob}"></td>
-                        <td th:text="${l.identityNumber}"></td>
-                        <td>
-                            <div class="text-center " role="group" >
-                                <a th:href="@{'/Edit/' + ${l.id}}" class="btn btn-success btn-sm">Edit</a>
-                                <a th:href="@{'/Delete/' + ${l.id}}" class="btn btn-danger btn-sm">Delete</a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr th:if="${#lists.isEmpty(candidateInfos)}">
-                        <td colspan="7" class="text-center text-muted">No data exists!</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Embedded Superset Dashboard</title>
+            <style>
+                iframe {
+                    width: 100%;
+                    height: 90vh;
+                    border: none;
+                }
+            </style>
+            <!--//"http://192.168.0.133:8089/superset/dashboard/12/?standalone=2&expand_filters=0&preselect_filters=%7B%22ORG_ID%22%3A%5B%2264%22%5D%7D"-->
+            <!--        <div><div class="right_col" role="main" data-layout-fragment="content">-->
+            <!--            <div th:id="my-superset-container"></div>-->
+            <!--&lt;!&ndash;            <iframe&ndash;&gt;-->
+            <!--&lt;!&ndash;                    th:src= ${dashBoardUrl}&ndash;&gt;-->
+            <!--&lt;!&ndash;                    width="100%"&ndash;&gt;-->
+            <!--&lt;!&ndash;                    height="1000px"&ndash;&gt;-->
+            <!--&lt;!&ndash;                    frameborder="0"&ndash;&gt;-->
+            <!--&lt;!&ndash;                    allowfullscreen>&ndash;&gt;-->
+            <!--&lt;!&ndash;            </iframe>&ndash;&gt;-->
+            <!--        </div>-->
+            <!--        </div>-->
+            <div id="dashboard-container">
+                <iframe id="superset-dashboard" src="" title="Superset Dashboard"></iframe>
+            </div>
+
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="mb-0">Manage your candidates efficiently</h6>
+                    <a href="/Create" class="btn btn-success btn-sm">+ New Candidate</a>
+                </div>
+
+                <!-- Table wrapper to make it responsive -->
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>ID</th>
+                                <th>First Name</th>
+                                <th>Middle Name</th>
+                                <th>Last Name</th>
+                                <th>Date of Birth</th>
+                                <th>Identity No.</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="!${#lists.isEmpty(candidateInfos)}" th:each="l : ${candidateInfos}">
+                                <td th:text="${l.id}"></td>
+                                <td th:text="${l.firstName}"></td>
+                                <td th:text="${l.middleName}"></td>
+                                <td th:text="${l.lastName}"></td>
+                                <td th:text="${l.dob}"></td>
+                                <td th:text="${l.identityNumber}"></td>
+                                <td>
+                                    <div class="text-center " role="group">
+                                        <a th:href="@{'/Edit/' + ${l.id}}" class="btn btn-success btn-sm">Edit</a>
+                                        <a th:href="@{'/Delete/' + ${l.id}}" class="btn btn-danger btn-sm">Delete</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(candidateInfos)}">
+                                <td colspan="7" class="text-center text-muted">No data exists!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
