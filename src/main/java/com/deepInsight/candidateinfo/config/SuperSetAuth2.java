@@ -3,6 +3,10 @@ package com.deepInsight.candidateinfo.config;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -36,7 +40,7 @@ public class SuperSetAuth2 {
         HttpEntity<String> loginRequest = new HttpEntity<>(loginPayload, headers);
 
         ResponseEntity<String> loginResponse = restTemplate.postForEntity(loginUrl, loginRequest, String.class);
-        String accessToken = getAccessToken(loginResponse,0);
+        String accessToken = getAccessToken(loginResponse, 0);
 
         // Step 2: Fetch the CSRF token
         HttpHeaders csrfHeaders = new HttpHeaders();
@@ -53,43 +57,48 @@ public class SuperSetAuth2 {
         guestHeaders.set("X-CSRF-TOKEN", csrfToken);  // Include the CSRF Token
 
         String requestBody = "{"
+                + "\"token\": \"" + accessToken + "\","
                 + "\"resources\": ["
                 + "  {\"type\": \"dashboard\", \"id\": \"" + dashBoardId + "\"}"
                 + "],"
-                +   "\"rls\": [],"
+        + "\"rls\": ["
+                + "  {\"clause\": \"org_id in (70,80,81)\"}"
+                +"],"
                 + "\"user\": {"
-                + "  \"username\": \"report-viewer\","
-                + "  \"first_name\": \"report-viewer\","
-                + "  \"last_name\": \"report-viewer\""
+                + "  \"username\": \"report-viewera\","
+                + "  \"first_name\": \"report-viewera\","
+                + "  \"last_name\": \"report-viewera\""
                 + "}"
                 + "}";
 
-            HttpEntity<String> guestRequest = new HttpEntity<>(requestBody, guestHeaders);
+//        + "\"rls\": ["
+//                + "  {\"clause\": \"org_id in (70,80,81)\"}"
+//                +"],"
+
+        HttpEntity<String> guestRequest = new HttpEntity<>(requestBody, guestHeaders);
         ResponseEntity<String> guestResponse = restTemplate.postForEntity(guestTokenUrl, guestRequest, String.class);
 
-        guestToken = getAccessToken(guestResponse,1);
+        guestToken = getAccessToken(guestResponse, 1);
 
         // Step 4: Build the iframe URL with the guest token
         // String iframeUrl = superSetUrl + "/superset/dashboard/"
         //         + dashBoardId + "/?standalone=1&token=" + guestToken;
 
-        // return iframeUrl;
-return guestToken;
+//         return accessToken;
+        return guestToken;
 
     }
 
     // Utility method to extract access token
-    private String getAccessToken(ResponseEntity<String> response,int ind) throws JsonProcessingException {
+    private String getAccessToken(ResponseEntity<String> response, int ind) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = objectMapper.readTree(response.getBody());
         String text;
-        if(ind==0)
-        {
-            text= rootNode.path("access_token").asText();
+        if (ind == 0) {
+            text = rootNode.path("access_token").asText();
 
-        }else
-        {
-            text= rootNode.path("token").asText();
+        } else {
+            text = rootNode.path("token").asText();
         }
         return text;//rootNode.path("access_token").asText();
     }
